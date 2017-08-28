@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1051877128527",
+    "firebase_url": "https://traductor-da858.firebaseio.com",
+    "project_id": "traductor-da858",
+    "storage_bucket": "traductor-da858.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051877128527:android:c0426acc73ff18f9",
+        "android_client_info": {
+          "package_name": "com.example.juan.practicas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051877128527-qk1s70vt9qg42gqdr9v02occhgqu6k68.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.juan.practicas",
+            "certificate_hash": "bc1929a0eae5c810dde37ea66b27ce2020fa769d"
+          }
+        },
+        {
+          "client_id": "1051877128527-q5ijfr2p2oq8lbn33vk3pqa7rjucqhq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgqXUqWpWUY5NPjk07kAL80FO81EcOla0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051877128527-q5ijfr2p2oq8lbn33vk3pqa7rjucqhq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
