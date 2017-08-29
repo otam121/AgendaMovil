@@ -36,7 +36,7 @@ public class ListaClientes extends AppCompatActivity {
                 String valor = dataSnapshot.getValue().toString();
                 Log.i("DATOS",valor);
 
-                String verificar ="hola mundo";
+                String ejemplo ="hola";
             }
 
             @Override
