@@ -35,6 +35,8 @@ public class ListaClientes extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String valor = dataSnapshot.getValue().toString();
                 Log.i("DATOS",valor);
+
+                String verificar ="hola";
             }
 
             @Override
