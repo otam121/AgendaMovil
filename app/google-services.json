@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1051877128527",
-    "firebase_url": "https://traductor-da858.firebaseio.com",
-    "project_id": "traductor-da858",
-    "storage_bucket": "traductor-da858.appspot.com"
+    "project_number": "764926155783",
+    "firebase_url": "https://agenda-de-cobros.firebaseio.com",
+    "project_id": "agenda-de-cobros",
+    "storage_bucket": "agenda-de-cobros.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1051877128527:android:c0426acc73ff18f9",
+        "mobilesdk_app_id": "1:764926155783:android:c0426acc73ff18f9",
         "android_client_info": {
           "package_name": "com.example.juan.practicas"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1051877128527-qk1s70vt9qg42gqdr9v02occhgqu6k68.apps.googleusercontent.com",
+          "client_id": "764926155783-a6hanv8sg53ccdquk8ko3b4o75uoioib.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.juan.practicas",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "1051877128527-q5ijfr2p2oq8lbn33vk3pqa7rjucqhq5.apps.googleusercontent.com",
+          "client_id": "764926155783-4qchkh2utmq726i9nd769gunmbqro68n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCgqXUqWpWUY5NPjk07kAL80FO81EcOla0"
+          "current_key": "AIzaSyBho2Y9nATzKE1LXVL4br8XoECPKYgI98k"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "1051877128527-q5ijfr2p2oq8lbn33vk3pqa7rjucqhq5.apps.googleusercontent.com",
+              "client_id": "764926155783-4qchkh2utmq726i9nd769gunmbqro68n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -3,6 +3,8 @@ package com.example.juan.practicas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -14,6 +16,8 @@ import com.google.firebase.database.ValueEventListener;
 import objetos.FirebaseReferenses;
 
 public class ListaClientes extends AppCompatActivity {
+
+    private Button botonprobar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +33,22 @@ public class ListaClientes extends AppCompatActivity {
         //Conectando con nuestra base de datos Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         //haciendo referencia a los datos que queremos
-        DatabaseReference refusuarios = database.getReference(FirebaseReferenses.CLIENTES_REFERENSES);
+        final DatabaseReference refusuarios = database.getReference(FirebaseReferenses.CLIENTES_REFERENSES);
+
+        botonprobar=(Button)findViewById(R.id.btnprueba);
+        botonprobar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refusuarios.child("Casandra1").child("deuda").setValue(13);
+            }
+        });
+
         refusuarios.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String valor = dataSnapshot.getValue().toString();
                 Log.i("DATOS",valor);
 
-                String ejemplo ="hola";
             }
 
             @Override
