@@ -1,5 +1,8 @@
 package com.example.juan.practicas;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,6 +40,7 @@ public class MenuOpciones extends AppCompatActivity {
     final public static FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
     //HACIENDO REFERENCIA A LA INSTANCIA CLIENTES DE NUESTRA BASE DE DATOS
     final public static DatabaseReference REFERENCIACLIENTE = DATABASE.getReference(FirebaseReferenses.CLIENTES_REFERENSES);
+    final public static DatabaseReference REFERENCIACONFIG = DATABASE.getReference(FirebaseReferenses.CONFIGURACION);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,28 @@ public class MenuOpciones extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        //CREANDO LAS PREFERENCIAS
+        final SharedPreferences pref = getSharedPreferences("mispreferencias", Context.MODE_PRIVATE);
+        String nvopin = pref.getString("pin","1");
+        Toast.makeText(MenuOpciones.this,nvopin,Toast.LENGTH_SHORT).show();
+        if (nvopin.equals("1")) {
+
+            Intent intent = new Intent(MenuOpciones.this, Introduccion.class);
+            startActivity(intent);
+        }
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_config:
+                        Intent intent = new Intent(MenuOpciones.this, Configuracion.class);
+                        startActivity(intent);
+                        break;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -119,9 +146,9 @@ public class MenuOpciones extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "CLIENTES";
                 case 1:
-                    return "SECTION 2";
+                    return "NVO. CLIENTE";
             }
             return null;
         }

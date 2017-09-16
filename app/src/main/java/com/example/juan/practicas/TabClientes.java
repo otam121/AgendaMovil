@@ -76,9 +76,13 @@ public class TabClientes extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String clienteseleccioonado = (String)listaclientes.getItemAtPosition(position);
-                Toast.makeText(getContext(),clienteseleccioonado,Toast.LENGTH_SHORT).show();
 
+                Bundle nombre = new Bundle();
+                nombre.putString("NOMBRE",clienteseleccioonado);
+
+                Toast.makeText(getContext(),clienteseleccioonado,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(),ClienteSeleccionado.class);
+                intent.putExtras(nombre);
                 startActivity(intent);
             }
         });

@@ -14,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +23,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 
 /**
  * Created by JuanSalinas on 02/09/2017.
@@ -75,6 +70,20 @@ public class TabNuevoCliente extends Fragment {
         //Buttons
         agregarcliente = (Button) rootView.findViewById(R.id.btnagregarcliente);
 
+        final String [] mesesdelano = new String[12];
+        mesesdelano[0]="Ene";
+        mesesdelano[1]="Feb";
+        mesesdelano[2]="Mar";
+        mesesdelano[3]="Abr";
+        mesesdelano[4]="May";
+        mesesdelano[5]="Jun";
+        mesesdelano[6]="Jul";
+        mesesdelano[7]="Ago";
+        mesesdelano[8]="Sep";
+        mesesdelano[9]="Oct";
+        mesesdelano[10]="Nov";
+        mesesdelano[11]="Dic";
+
         //Seleccionar la fecha del ultimo abono presionando el Editext
         fechaultimoabono.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -99,8 +108,7 @@ public class TabNuevoCliente extends Fragment {
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month = month+1;
-                dateA =dayOfMonth+"/"+month+"/"+year;
+                dateA =dayOfMonth+"/"+mesesdelano[month]+"/"+year;
                 fechaultimoabono.setText(dateA);
             }
         };
@@ -128,13 +136,11 @@ public class TabNuevoCliente extends Fragment {
         nDataSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month =month+1;
-                dateC = dayOfMonth+"/"+month+"/"+year;
+                dateC = dayOfMonth+"/"+mesesdelano[month]+"/"+year;
                 fechaultimocargo.setText(dateC);
 
             }
         };
-        //Aqui termina lo de las FECHAS
 
         //------------------------------------------------BOTON AGREGAR CLIENTE--------------------------------------------------
         agregarcliente.setOnClickListener(new View.OnClickListener(){
@@ -142,18 +148,20 @@ public class TabNuevoCliente extends Fragment {
             public void onClick(View v){
 
                 //OBTENIENDO VALORES DE NUESTROS EDITEX Y ASIGNANDOLOS A NUESTRAS VARIABLES
-                nombrenuevocliente = nombrecliente.getText().toString();
+                nombrenuevocliente = nombrecliente.getText().toString().toUpperCase();
                 deuda = deudaactual.getText().toString();
                 uabono = ultimoabono.getText().toString();
                 ucargo = ultimocargo.getText().toString();
 
+
+
                 //CONTROL PARA EL MOMENTO DE REGISTRAR NUEVO CLIENTE
                 if (nombrenuevocliente.length() != 0 && deuda.length() != 0 && uabono.length() != 0 &&
-                        ucargo.length() != 0){
+                        ucargo.length() != 0 && fechaultimoabono.getText().length() != 0 && fechaultimocargo.getText().length() != 0){
 
                     AlertDialog.Builder ventananuevocliente = new AlertDialog.Builder(getContext());
                     ventananuevocliente.setMessage("Se creara el cliente fulanito esta seguro de continuar con la operacion?");
-                    ventananuevocliente.setTitle("Nuevo Cliente");
+                    ventananuevocliente.setTitle("AGREGAR NUEVO CLIENTE");
 
                     final EditText txtnombrecliente = new EditText(getContext());
 
@@ -182,46 +190,20 @@ public class TabNuevoCliente extends Fragment {
                             MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("ultimoCargo").setValue(ucargo);
                             MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("fechaCargo").setValue(dateC);
 
-
-
                             Toast.makeText(getContext(),"Cliente guardado",Toast.LENGTH_SHORT).show();
+
+                            //LIMPIANDO LOS TEXVIEW Y EDITEXT DEL FORMULARIO
+                            nombrecliente.setText("");
+                            deudaactual.setText("");
+                            ultimoabono.setText("");
+                            ultimocargo.setText("");
+                            fechaultimoabono.setText("");
+                            fechaultimocargo.setText("");
+
                             Intent refresh = new Intent(getContext(),MenuOpciones.class);
                             startActivity(refresh);
 
 
-                        }
-                    });
-
-                    ventananuevocliente.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            MenuOpciones.REFERENCIACLIENTE.addChildEventListener(new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                    String value = dataSnapshot.getKey();
-                                    Log.i("DATOS:",value);
-                                }
-
-                                @Override
-                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
                         }
                     });
 

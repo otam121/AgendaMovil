@@ -5,12 +5,99 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
+        android:id="@+id/lblnombredelcliente"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="hola 1"/>
+        android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="20dp"
+        android:text="NOMBRE DEL CLIENTE"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/lbldeudadelcliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$0.00"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="65sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/deuda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deuda total Actual"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:textSize="16sp"
+        android:paddingBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/lblUltimoabono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No encontrado"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/ultimoabono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Monto del ultimo abono realizado"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        android:paddingBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/lblfecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No encontrada"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblfechadelabono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="Fecha del abono"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="---------------------------------------------------"
+        android:paddingTop="10dp"
+        android:textAlignment="center"
+        android:textAllCaps="false" />
+    <EditText
+        android:id="@+id/txtnuevoabono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nuevo Abono"
+        android:inputType="number"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnrealizarabono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="REALIZAR ABONO"/>
+
 
 </LinearLayout>

@@ -1,112 +1,146 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
     >
 
-    <TextView
-        android:id="@+id/datoscliente"
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:fontFamily="sans-serif-condensed"
-        android:gravity="center"
-        android:text="RELLENE LOS CAMPOS"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
 
-    <TextView android:id="@+id/lblnombreCliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nombre del cliente:"/>
-
-    <EditText android:id="@+id/txtnombreCliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text" />
-
-    <TextView android:id="@+id/lblAdeudo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Deuda Actual:"/>
-
-    <EditText
-        android:id="@+id/txtAdeudo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="0"/>
-
-    <TextView android:id="@+id/lblUltimoabono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ultimo Abono Realizado:"/>
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
 
-    <EditText android:id="@+id/txtUltimoabono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:text="0"/>
+        <TextView
+            android:id="@+id/datoscliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:text="RELLENE LOS CAMPOS"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <TextView android:id="@+id/lblFechaUltimoabono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha del Ultimo Abono Realizado:"/>
+        <TextView
+            android:id="@+id/lblnombreCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del cliente:"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/txtnombreCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escriba el nombre"
+            android:inputType="text" />
 
-    <TextView
-        android:id="@+id/txtFechaUltimoabono"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
-        android:layout_marginTop="13dp"
-        android:text="Presione y seleccione la fecha"
-        android:textColor="@android:color/holo_red_light"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/lblAdeudo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deuda Actual:"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/lblUltimocargo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ultimo Cargo por Pedido:" />
+        <EditText
+            android:id="@+id/txtAdeudo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:inputType="number" />
 
-
-    <EditText android:id="@+id/txtUltimocargo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number" />
-
-    <TextView android:id="@+id/lblFechaUltimocargo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha del Ultimo Cargo por Pedido:"/>
-
-    <TextView
-        android:id="@+id/txtFechaUltimocargo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="13dp"
-        android:layout_marginTop="13dp"
-        android:text="Presione y seleccione la fecha"
-        android:textColor="@android:color/holo_red_light"
-        android:textSize="18sp" />
-
-
-    <Button
-        android:id="@+id/btnagregarcliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Agregar"
-        android:onClick="agragarcliente"/>
+        <TextView
+            android:id="@+id/lblUltimoabono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ultimo Abono Realizado:"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
+        <EditText
+            android:id="@+id/txtUltimoabono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:inputType="number" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/lblFechaUltimoabono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha del Ultimo Abono Realizado:"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/txtFechaUltimoabono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:hint="Presione y seleccione la fecha"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lblUltimocargo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ultimo Cargo por Pedido:"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/txtUltimocargo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/lblFechaUltimocargo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha del Ultimo Cargo por Pedido:"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtFechaUltimocargo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp"
+            android:hint="Presione y seleccione la fecha"
+            android:paddingBottom="15dp"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="18sp" />
+
+
+        <Button
+            android:id="@+id/btnagregarcliente"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="agragarcliente"
+            android:text="Agregar" />
+
+
+    </LinearLayout>
+
+</ScrollView>
+
+

@@ -6,5 +6,6 @@ package objetos;
 
 public class FirebaseReferenses {
     final public static String CLIENTES_REFERENSES = "clientes";
+    final public static String CONFIGURACION = "configuracion";
 
 }

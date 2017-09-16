@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
         <activity android:name=".ListaClientes" />
         <activity
             android:name=".MenuOpciones"
             android:label="@string/title_activity_menu_opciones"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,14 @@
         <activity
             android:name=".ClienteSeleccionado"
             android:label="@string/title_activity_cliente_seleccionado"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Introduccion"
+            android:label="@string/title_activity_introduccion"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Configuracion"></activity>
     </application>
 
 </manifest>
