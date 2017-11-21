@@ -7,6 +7,11 @@
         android:orderInCategory="100"
         android:title="Configuración"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_dia"
+        android:orderInCategory="100"
+        android:title="Historia del día"
+        app:showAsAction="never" />
 
 
 </menu>

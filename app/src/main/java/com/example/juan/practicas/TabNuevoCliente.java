@@ -2,8 +2,10 @@ package com.example.juan.practicas;
 
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
@@ -148,7 +150,7 @@ public class TabNuevoCliente extends Fragment {
             public void onClick(View v){
 
                 //OBTENIENDO VALORES DE NUESTROS EDITEX Y ASIGNANDOLOS A NUESTRAS VARIABLES
-                nombrenuevocliente = nombrecliente.getText().toString().toUpperCase();
+                nombrenuevocliente = nombrecliente.getText().toString();
                 deuda = deudaactual.getText().toString();
                 uabono = ultimoabono.getText().toString();
                 ucargo = ultimocargo.getText().toString();
@@ -159,54 +161,63 @@ public class TabNuevoCliente extends Fragment {
                 if (nombrenuevocliente.length() != 0 && deuda.length() != 0 && uabono.length() != 0 &&
                         ucargo.length() != 0 && fechaultimoabono.getText().length() != 0 && fechaultimocargo.getText().length() != 0){
 
-                    AlertDialog.Builder ventananuevocliente = new AlertDialog.Builder(getContext());
-                    ventananuevocliente.setMessage("Se creara el cliente fulanito esta seguro de continuar con la operacion?");
-                    ventananuevocliente.setTitle("AGREGAR NUEVO CLIENTE");
+                    AlertDialog.Builder ventananuevocliente = new AlertDialog.Builder(getContext(),R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+                    ventananuevocliente.setMessage("\nSe creara un nuevo cliente con el nombre de:"+nombrecliente.getText().toString()+ "\n¿Está seguro de continuar?");
+                    ventananuevocliente.setTitle("NUEVO CLIENTE");
 
-                    final EditText txtnombrecliente = new EditText(getContext());
+                    final EditText txtpincliente = new EditText(getContext());
 
+                    txtpincliente.setWidth(100);
+                    txtpincliente.setHint("Escriba su PIN");
                     //CENTRAR
-                    txtnombrecliente.setGravity(Gravity.CENTER);
+                    txtpincliente.setGravity(Gravity.CENTER);
                     //SELECCIONAR EL INPUTTYPE PARA NUESTO EDITEXT
-                    txtnombrecliente.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    txtpincliente.setInputType(InputType.TYPE_CLASS_NUMBER);
                     //OCULTA EL CONTENIDO DE NUESTRO EDITEXT COMO UNA CONTRASEÑA
-                    txtnombrecliente.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    txtpincliente.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-                    ventananuevocliente.setView(txtnombrecliente);
+                    ventananuevocliente.setView(txtpincliente);
 
                     ventananuevocliente.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            //VERIFICANDO PIN DEL USUARIO
+                            SharedPreferences pref =getActivity().getSharedPreferences("mispreferencias", Context.MODE_PRIVATE);
+                            String pin = pref.getString("pin","1");
+                            if (txtpincliente.getText().toString().equals(pin)){
 
-                            //String nombreclientenuevo = txtnombrecliente.getText().toString();
-                            //Toast.makeText(getContext(),"La pass introducida es "+nombreclientenuevo,Toast.LENGTH_SHORT).show();
+                                //CARGANDO LOS VALORES A LA BASE DE DATOS
+                                MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("adeudo").setValue(deuda);
+                                MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("ultimoPago").setValue(uabono);
+                                MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("fechaPago").setValue(dateA);
+                                MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("ultimoCargo").setValue(ucargo);
+                                MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("fechaCargo").setValue(dateC);
 
+                                Toast.makeText(getContext(),"Cliente registrado exitosamente",Toast.LENGTH_SHORT).show();
 
+                                //LIMPIANDO LOS TEXVIEW Y EDITEXT DEL FORMULARIO
+                                nombrecliente.setText("");
+                                deudaactual.setText("");
+                                ultimoabono.setText("");
+                                ultimocargo.setText("");
+                                fechaultimoabono.setText("");
+                                fechaultimocargo.setText("");
 
-                            //CARGANDO LOS VALORES A LA BASE DE DATOS
-                            MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("adeudo").setValue(deuda);
-                            MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("ultimoPago").setValue(uabono);
-                            MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("fechaPago").setValue(dateA);
-                            MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("ultimoCargo").setValue(ucargo);
-                            MenuOpciones.REFERENCIACLIENTE.child(nombrenuevocliente).child("fechaCargo").setValue(dateC);
+                                Intent refresh = new Intent(getContext(),MenuOpciones.class);
+                                startActivity(refresh);
 
-                            Toast.makeText(getContext(),"Cliente guardado",Toast.LENGTH_SHORT).show();
-
-                            //LIMPIANDO LOS TEXVIEW Y EDITEXT DEL FORMULARIO
-                            nombrecliente.setText("");
-                            deudaactual.setText("");
-                            ultimoabono.setText("");
-                            ultimocargo.setText("");
-                            fechaultimoabono.setText("");
-                            fechaultimocargo.setText("");
-
-                            Intent refresh = new Intent(getContext(),MenuOpciones.class);
-                            startActivity(refresh);
-
+                            }else {
+                                Toast.makeText(getContext(),"ERROR, PIN incorrecto",Toast.LENGTH_SHORT).show();
+                            }
 
                         }
                     });
+                    ventananuevocliente.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
+                        }
+                    });
                     ventananuevocliente.show();
 
                 }else

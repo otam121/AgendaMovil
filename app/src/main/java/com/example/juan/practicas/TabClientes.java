@@ -55,6 +55,9 @@ public class TabClientes extends Fragment {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getKey();
+                list.remove(value);
+                adapter.notifyDataSetChanged();
 
             }
 

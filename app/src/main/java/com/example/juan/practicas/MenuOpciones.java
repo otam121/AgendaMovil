@@ -43,6 +43,11 @@ public class MenuOpciones extends AppCompatActivity {
     final public static DatabaseReference REFERENCIACONFIG = DATABASE.getReference(FirebaseReferenses.CONFIGURACION);
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_opciones);
@@ -61,9 +66,11 @@ public class MenuOpciones extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         //CREANDO LAS PREFERENCIAS
+        //LAS PREFERENCIAS ALMACENAN EL PIN DEL USUARIO
         final SharedPreferences pref = getSharedPreferences("mispreferencias", Context.MODE_PRIVATE);
         String nvopin = pref.getString("pin","1");
         Toast.makeText(MenuOpciones.this,nvopin,Toast.LENGTH_SHORT).show();
+        //SI EL PIN ES IGUAL A 1 LA APLICACION LANZARARA LA BIENVENIDA PARA QUE EL USUARIO DETERMINE SU PIN
         if (nvopin.equals("1")) {
 
             Intent intent = new Intent(MenuOpciones.this, Introduccion.class);
@@ -77,6 +84,10 @@ public class MenuOpciones extends AppCompatActivity {
                     case R.id.action_config:
                         Intent intent = new Intent(MenuOpciones.this, Configuracion.class);
                         startActivity(intent);
+                        break;
+                    case R.id.action_dia:
+                        Intent intent1 = new Intent(MenuOpciones.this, MyDia.class);
+                        startActivity(intent1);
                         break;
                 }
                 return false;

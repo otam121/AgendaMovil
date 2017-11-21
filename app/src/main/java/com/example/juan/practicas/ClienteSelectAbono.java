@@ -2,7 +2,12 @@ package com.example.juan.practicas;
 
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,13 +41,13 @@ public class ClienteSelectAbono extends Fragment {
     private Button ABONAR;
     private EditText CANTIDAD_ABONO;
     //VARIABLES NECESARIAS PARA ALGUNAS OPERACIONES
-    String DEUDA_C, nombre;
+    String DEUDA_C,ABONO_C,FECHA_C, nombre;
     int NVO_DEUDA, NVO_ABONO;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_cliente_seleccionado, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_cliente_selecabono, container, false);
 
         //ASOCIANDO NUESTROS OBJETOS CON SUS RESPECTIVOS ID DEL XML
         NOMBRE = (TextView)rootView.findViewById(R.id.lblnombredelcliente);
@@ -85,6 +90,8 @@ public class ClienteSelectAbono extends Fragment {
                 Cliente cliente = dataSnapshot.getValue(Cliente.class);
 
                 DEUDA_C = cliente.getAdeudo();
+                ABONO_C = cliente.getUltimoPago();
+                FECHA_C= cliente.getFechaPago();
 
                 DEUDA.setText("$"+cliente.getAdeudo());
                 ABONO.setText("$"+cliente.getUltimoPago());
@@ -93,7 +100,7 @@ public class ClienteSelectAbono extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(getContext(),"...",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,53 +111,116 @@ public class ClienteSelectAbono extends Fragment {
 
                 if (CANTIDAD_ABONO.getText().length() != 0){
 
-                    AlertDialog.Builder ventanarealizarabono = new AlertDialog.Builder(getContext());
-                    ventanarealizarabono.setTitle("NUEVO ABONO!");
-                    ventanarealizarabono.setMessage("\nSe ralizara un abono con la cantidad de: $"+CANTIDAD_ABONO.getText().toString()+"\n¿Desea continuar con la operacion?" );
+                    //OBTENIENDO LA CANTIDAD DEL ABONO RELIZADO
+                    NVO_ABONO = Integer.parseInt(CANTIDAD_ABONO.getText().toString());
+                    //CONVIRTIENDO DEUDA_C A ENTERO
+                    NVO_DEUDA = Integer.parseInt(DEUDA_C);
 
-                    //CREANDO UN OBJETO DE TIPO EDITEXT
-                    final EditText pin = new EditText(getContext());
-                    //APLICANDO ALGUNAS PROPIEDADES A NUESTRO EDITEX CREADO
-                    pin.setGravity(Gravity.CENTER);
-                    pin.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    pin.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    if (NVO_ABONO <= NVO_DEUDA){
+                        //REEALIZANDO ABONO A NUESTRO CLIENTE
+                        NVO_DEUDA= NVO_DEUDA-NVO_ABONO;
 
-                    //AGREGANDO NUESTO EDITEXT A NUESTRA VENTANA ALERTDIALOG
-                    ventanarealizarabono.setView(pin);
+                        AlertDialog.Builder ventanarealizarabono = new AlertDialog.Builder(getContext());
+                        ventanarealizarabono.setTitle("NUEVO ABONO!");
+                        ventanarealizarabono.setMessage("Se ralizara un abono con la cantidad de: $"+CANTIDAD_ABONO.getText().toString()+"\n¿Desea continuar con la operacion?" );
 
-                    //METODO DEL BOTON POSITIVO DEL NUESTRO ALERTDIALOG
-                    ventanarealizarabono.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                        @RequiresApi(api = Build.VERSION_CODES.N)
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //OBTENIENDO LA CANTIDAD DEL ABONO RELIZADO
-                            NVO_ABONO = Integer.parseInt(CANTIDAD_ABONO.getText().toString());
-                            //CONVIRTIENDO DEUDA_C A ENTERO
-                            NVO_DEUDA = Integer.parseInt(DEUDA_C);
-                            NVO_DEUDA= NVO_DEUDA-NVO_ABONO;
+                        //CREANDO UN OBJETO DE TIPO EDITEXT
+                        final EditText pin = new EditText(getContext());
+                        //APLICANDO ALGUNAS PROPIEDADES A NUESTRO EDITEX CREADO
+                        pin.setHint("Escriba su pin");
+                        pin.setGravity(Gravity.CENTER);
+                        pin.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        pin.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                        //AGREGANDO NUESTO EDITEXT A NUESTRA VENTANA ALERTDIALOG
+                        ventanarealizarabono.setView(pin);
+
+                        //METODO DEL BOTON POSITIVO DEL NUESTRO ALERTDIALOG
+                        ventanarealizarabono.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                SharedPreferences pref = getActivity().getSharedPreferences("mispreferencias", Context.MODE_PRIVATE);
+                                String pinapp = pref.getString("pin","1");
+
+                                if (pinapp.equals(pin.getText().toString())){
+
+                                    //OBTENIEDNO LA FECHA
+                                    Calendar fecha = Calendar.getInstance();
+                                    int ano = fecha.get(Calendar.YEAR);
+                                    int mes = fecha.get(Calendar.MONTH);
+                                    int dia = fecha.get(Calendar.DAY_OF_MONTH);
+
+                                    String HOY = dia+"/"+mesesdelano[mes]+"/"+ano;
+                                    String deudasting = Integer.toString(NVO_DEUDA);
+                                    String abonostring = Integer.toString(NVO_ABONO);
+
+                                    //ALMACENANDO DATOS EN LA MEMORIA DEL TELEFONO PARA CASOS EXTRAORDINARIOS
+                                    ClientesSQLiteHelper mibd = new ClientesSQLiteHelper(getContext(),"Baseclientes",null,1);
+                                    SQLiteDatabase db =mibd.getWritableDatabase();
+
+                                    Cursor c = db.rawQuery("SELECT * FROM abonos WHERE nombre='"+nombre+"'", null);
+
+                                    if(c.moveToFirst() == true){
+                                        ContentValues valores = new ContentValues();
+                                        valores.put("abono",ABONO_C);
+                                        valores.put("fecha",FECHA_C);
+
+                                        db.update("abonos",valores,"nombre='"+nombre+"'",null);
+
+                                        //ALMACENANDO LA HISTORIA PARA MI APP
+                                        ContentValues valoreshistoria = new ContentValues();
+
+                                        valoreshistoria.put("nombre ",nombre);
+                                        valoreshistoria.put("abono",abonostring);
+
+                                        db.insert("midia",null,valoreshistoria);
+                                        db.close();
 
 
-                            //OBTENIEDNO LA FECHA
-                            Calendar fecha = Calendar.getInstance();
-                            int ano = fecha.get(Calendar.YEAR);
-                            int mes = fecha.get(Calendar.MONTH);
-                            int dia = fecha.get(Calendar.DAY_OF_MONTH);
+                                        Toast.makeText(getContext(),"Memoria Actualizada",Toast.LENGTH_LONG).show();
 
-                            String HOY = dia+"/"+mesesdelano[mes]+"/"+ano;
-                            String deudasting = Integer.toString(NVO_DEUDA);
-                            String abonostring = Integer.toString(NVO_ABONO);
+                                    }else {
 
-                            MenuOpciones.REFERENCIACLIENTE.child(nombre).child("adeudo").setValue(deudasting);
-                            MenuOpciones.REFERENCIACLIENTE.child(nombre).child("ultimoPago").setValue(abonostring);
-                            MenuOpciones.REFERENCIACLIENTE.child(nombre).child("fechaPago").setValue(HOY);
+                                        ContentValues valores = new ContentValues();
+                                        valores.put("nombre",nombre);
+                                        valores.put("abono",ABONO_C);
+                                        valores.put("fecha",FECHA_C);
 
-                            CANTIDAD_ABONO.setText("");
-                            Toast.makeText(getContext(),"Abono Realizado",Toast.LENGTH_SHORT).show();
+                                        db.insert("abonos",null,valores);
 
-                        }
-                    });
+                                        ContentValues valoreshistoria = new ContentValues();
+                                        valoreshistoria.put("nombre ",nombre);
+                                        valoreshistoria.put("abono",abonostring);
 
-                    ventanarealizarabono.show();
+                                        db.insert("midia",null,valoreshistoria);
+
+                                        db.close();
+                                        Toast.makeText(getContext(),"Memoria Creada",Toast.LENGTH_LONG).show();
+                                    }
+                                    //AQUI TERMINA LA MEMORIA
+
+                                    MenuOpciones.REFERENCIACLIENTE.child(nombre).child("adeudo").setValue(deudasting);
+                                    MenuOpciones.REFERENCIACLIENTE.child(nombre).child("ultimoPago").setValue(abonostring);
+                                    MenuOpciones.REFERENCIACLIENTE.child(nombre).child("fechaPago").setValue(HOY);
+
+                                    CANTIDAD_ABONO.setText("");
+                                    Toast.makeText(getContext(),"Abono Realizado con Exito",Toast.LENGTH_SHORT).show();
+
+                                }else {
+                                    Toast.makeText(getContext(),"ERROR, pin incorrecto",Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+
+                        ventanarealizarabono.show();
+
+                    }else {
+                        CANTIDAD_ABONO.setText("");
+                        Toast.makeText(getContext(),"ERROR, el abono no puede ser mas grandre que la deuda actual",Toast.LENGTH_SHORT).show();
+                    }
 
                 }else {
                     Toast.makeText(getContext(), "Debe de Introducir la cantidad del Abono para relizar esta operacion",

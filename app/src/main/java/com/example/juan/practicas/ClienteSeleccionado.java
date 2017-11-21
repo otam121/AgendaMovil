@@ -1,8 +1,7 @@
 package com.example.juan.practicas;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 public class ClienteSeleccionado extends AppCompatActivity {
 
@@ -30,15 +28,20 @@ public class ClienteSeleccionado extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    String nombre2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cliente_seleccionado);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //RECUPERANDO EL BUNDLE ENVIADO DEL ACTIVITI PASADO
+        Bundle bundle = this.getIntent().getExtras();
+        //ASISGNANDO EL VALOR DEL BUNDLE EN LA VARIABLE NOMBRE
+        nombre2 = bundle.getString("NOMBRE");
+
+        Toolbar toolbar2 = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar2);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -50,15 +53,25 @@ public class ClienteSeleccionado extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+
+        toolbar2.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_avanzadas:
+                        Bundle nombre = new Bundle();
+                        nombre.putString("NOMBRE2",nombre2);
+                        Intent acanzado = new Intent(ClienteSeleccionado.this, OpcionesAvazadas.class);
+                        acanzado.putExtras(nombre);
+                        startActivity(acanzado);
+                        break;
+
+                }
+
+                return false;
             }
         });
-
 
 
     }
@@ -106,9 +119,6 @@ public class ClienteSeleccionado extends AppCompatActivity {
                 case 1:
                     ClienteSelectCargo tab2 = new ClienteSelectCargo();
                     return tab2;
-                case 2:
-                    ClienteSelectExtra tab3 = new ClienteSelectExtra();
-                    return tab3;
             }
             return null;
         }
@@ -116,7 +126,7 @@ public class ClienteSeleccionado extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -126,8 +136,7 @@ public class ClienteSeleccionado extends AppCompatActivity {
                     return "ABONOS";
                 case 1:
                     return "CARGOS";
-                case 2:
-                    return "OTROS";
+
             }
             return null;
         }

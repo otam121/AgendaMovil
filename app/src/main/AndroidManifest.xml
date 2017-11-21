@@ -10,17 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListaClientes" />
-        <activity
-            android:name=".MenuOpciones"
-            android:label="@string/title_activity_menu_opciones"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MenuOpciones"
+            android:label="@string/title_activity_menu_opciones"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ClienteSeleccionado"
             android:label="@string/title_activity_cliente_seleccionado"
@@ -31,7 +32,9 @@
             android:label="@string/title_activity_introduccion"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Configuracion"></activity>
+        <activity android:name=".Configuracion" />
+        <activity android:name=".MyDia" />
+        <activity android:name=".OpcionesAvazadas"></activity>
     </application>
 
 </manifest>

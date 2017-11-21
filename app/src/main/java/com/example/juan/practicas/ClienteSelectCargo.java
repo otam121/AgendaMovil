@@ -2,7 +2,10 @@ package com.example.juan.practicas;
 
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +41,7 @@ public class ClienteSelectCargo extends Fragment {
     private EditText CANTIDAD_CARGO;
 
     //VARIABLES NECESARIAS PARA RELIZAR LAS OPERACIONES
-    String DEUDA_C, nombre;
+    String DEUDA_C,CARGO_C,FECHA_C, nombre;
     int NVO_DEUDA, NVO_CARGO;
 
 
@@ -85,6 +88,8 @@ public class ClienteSelectCargo extends Fragment {
                  Cliente cliente = dataSnapshot.getValue(Cliente.class);
 
                  DEUDA_C = cliente.getAdeudo();
+                 CARGO_C =cliente.getUltimoCargo();
+                 FECHA_C = cliente.getFechaCargo();
 
                  DEUDA.setText("$"+cliente.getAdeudo());
                  CARGO.setText("$"+cliente.getUltimoCargo());
@@ -140,6 +145,35 @@ public class ClienteSelectCargo extends Fragment {
                             //CONVIRTIENDO VALORES A STRING PARA ALMACENARLOS EN LA BASE DE DATOS
                             String deudastring = Integer.toString(NVO_DEUDA);
                             String cargostring = Integer.toString(NVO_CARGO);
+
+                            //ALMACENANDO DATOS EN LA MEMORIA DEL TELEFONO PARA CASOS EXTRAORDINARIOS
+                            ClientesSQLiteHelper mibd = new ClientesSQLiteHelper(getContext(),"Baseclientes",null,1);
+                            SQLiteDatabase db =mibd.getWritableDatabase();
+
+                            Cursor c = db.rawQuery("SELECT * FROM cargos WHERE nombre='"+nombre+"'", null);
+
+                            if(c.moveToFirst() == true){
+                                ContentValues valores = new ContentValues();
+                                valores.put("cargo",CARGO_C);
+                                valores.put("fecha",FECHA_C);
+
+                                db.update("cargos",valores,"nombre='"+nombre+"'",null);
+                                db.close();
+                                Toast.makeText(getContext(),"actualizamos CARGO a la tabla",Toast.LENGTH_LONG).show();
+
+                            }else {
+
+                                ContentValues valores = new ContentValues();
+                                valores.put("nombre",nombre);
+                                valores.put("cargo",CARGO_C);
+                                valores.put("fecha",FECHA_C);
+
+                                db.insert("cargos",null,valores);
+                                db.close();
+                                Toast.makeText(getContext(),"insertamos CARGO a la bd",Toast.LENGTH_LONG).show();
+                            }
+                            //AQUI TERMINA LA MEMORIA
+
 
                             //ENVIANDO LOS VALORES A NUESTRA BASE DE DATOS
                             MenuOpciones.REFERENCIACLIENTE.child(nombre).child("adeudo").setValue(deudastring);
